@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #f0f0f0;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.business-card {
+    width: 3.5in;
+    height: 2in;
+    background: #1a1a1a;
+    /* Add your background image here */
+    background-image: url('Business-Card-Images/Colorful-Neon-Hexagons.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 1px solid #333;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Optional: Add a dark overlay over the background image for better text readability */
+.business-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+}
+
+/* Remove the cube pattern since we're using an image */
+.business-card::before {
+    display: none;
+}
+
+.content {
+    position: relative;
+    z-index: 2;
+}
+
+.name {
+    font-size: 50px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    margin-bottom: 2px;
+    color: #ffffff;
+    position: relative;
+    text-transform: uppercase;
+
+    /* Multiple layered shadows to simulate depth */
+    text-shadow:
+        2px 2px 0 #7ae6fe,    /* pink edge */
+        4px 4px 0 #ff2bc6,    /* yellow edge */
+        6px 6px 0 #1a1a1a,    /* dark shadow */
+        0 0 10px rgba(255, 107, 157, 0.4); /* soft glow */
+}
+
+.title {
+    font-size: 12px;
+    font-weight: 400;
+    color: #ffffff;
+    margin: 0 0 12px 0;
+    letter-spacing: 0.5px;
+}
+
+.tagline {
+    font-size: 11px;
+    font-weight: 400;
+    color: #ffffff;
+    font-style: italic;
+    margin-bottom: 16px;
+    letter-spacing: 0.3px;
+}
+
+.contact {
+    font-size: 12px;
+    font-weight: 400;
+    color: #ffffff;
+    letter-spacing: 0.2px;
+    line-height: 1.2;
+}
+
+/* Print styles */
+@media print {
+    body {
+        background: white;
+        padding: 0;
+    }
+    
+    .business-card {
+        width: 3.5in;
+        height: 2in;
+        box-shadow: none;
+        border: 1px solid #333;
+        page-break-inside: avoid;
+    }
+}
+
+/* Hover effect for digital viewing */
+@media screen {
+    .business-card {
+        transition: all 0.3s ease;
+    }
+    
+    .business-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    }
+    
+    .name {
+        transition: text-shadow 0.3s ease;
+    }
+    
+    .business-card:hover .name {
+        text-shadow: 
+            -2px -2px 0 #ff2bc6,
+            2px -2px 0 #7ae6fe,
+            -2px 2px 0 #ff2bc6,
+            2px 2px 0 #7ae6fe,
+            0 0 20px rgba(255, 107, 157, 0.5),
+            0 0 40px rgba(255, 107, 157, 0.2);
+    }
+}
