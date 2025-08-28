@@ -16,30 +16,59 @@ body {
     padding: 20px;
 }
 
+.card-container {
+    perspective: 1000px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    -webkit-tap-highlight-color: transparent;
+}
+
 .business-card {
     width: 3.5in;
     height: 2in;
-    background: #1a1a1a;
-    /* Add your background image here */
-    background-image: url('Business-Card-Images/Colorful-Neon-Hexagons.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    border: 1px solid #333;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.8s ease;
+    cursor: pointer;
+}
+
+/* Flip animation triggers - CLICK ONLY */
+.business-card.flipped {
+    transform: rotateY(180deg);
+}
+
+/* Common styles for both sides */
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
     border-radius: 8px;
+    border: 1px solid #333;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
     padding: 20px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    position: relative;
-    overflow: hidden;
 }
 
-/* Optional: Add a dark overlay over the background image for better text readability */
-.business-card::after {
+/* Front side styles (your existing design) */
+.card-front {
+    background: #1a1a1a;
+    background-image: url('Business-Card-Images/Colorful-Neon-Hexagons.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Dark overlay for better text readability (your existing overlay) */
+.card-front::after {
     content: '';
     position: absolute;
     top: 0;
@@ -50,16 +79,41 @@ body {
     z-index: 1;
 }
 
-/* Remove the cube pattern since we're using an image */
-.business-card::before {
+/* Back side styles */
+.card-back {
+    background: #1a1a1a;
+    /* Add your back side background image here */
+    background-image: url('Business-Card-Images/Colorful-Neon-Hexagons.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transform: rotateY(180deg);
+    padding: 15px;
+}
+
+/* Dark overlay for back side text readability */
+.card-back::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+}
+
+.card-back::before {
     display: none;
 }
 
 .content {
     position: relative;
     z-index: 2;
+    width: 100%;
 }
 
+/* Front side content (your existing styles) */
 .name {
     font-size: 50px;
     font-weight: 800;
@@ -68,11 +122,12 @@ body {
     color: #ffffff;
     position: relative;
     text-transform: uppercase;
+    transition: text-shadow 0.3s ease;
 
-    /* Multiple layered shadows to simulate depth */
+    /* Your existing multiple layered shadows */
     text-shadow:
-        2px 2px 0 #7ae6fe,    /* pink edge */
-        4px 4px 0 #ff2bc6,    /* yellow edge */
+        2px 2px 0 #7ae6fe,    /* cyan edge */
+        4px 4px 0 #ff2bc6,    /* pink edge */
         6px 6px 0 #1a1a1a,    /* dark shadow */
         0 0 10px rgba(255, 107, 157, 0.4); /* soft glow */
 }
@@ -102,6 +157,34 @@ body {
     line-height: 1.2;
 }
 
+/* Back side content */
+.qr-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.qr-text {
+    font-size: 12px;
+    color: #7ae6fe;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    text-shadow: 0 0 8px rgba(126, 230, 254, 0.4);
+}
+
+.qr-code {
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.flip-instruction {
+    font-size: 12px;
+    color: #888;
+    font-style: italic;
+    opacity: 0.8;
+}
+
 /* Print styles */
 @media print {
     body {
@@ -109,31 +192,44 @@ body {
         padding: 0;
     }
     
+    .card-container {
+        perspective: none;
+    }
+    
     .business-card {
         width: 3.5in;
         height: 2in;
+        transform: none;
+        cursor: default;
+        page-break-inside: avoid;
+        margin-bottom: 0.2in;
+    }
+    
+    .card-front,
+    .card-back {
         box-shadow: none;
         border: 1px solid #333;
+        position: static;
         page-break-inside: avoid;
+        margin-bottom: 0.2in;
+    }
+    
+    .card-back {
+        transform: none;
+    }
+    
+    .flip-instruction {
+        display: none;
     }
 }
 
-/* Hover effect for digital viewing */
+/* Enhanced click effects for desktop - CLICK ONLY, NO HOVER */
 @media screen {
     .business-card {
-        transition: all 0.3s ease;
+        transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     
-    .business-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-    }
-    
-    .name {
-        transition: text-shadow 0.3s ease;
-    }
-    
-    .business-card:hover .name {
+    .card-front:hover .name {
         text-shadow: 
             -2px -2px 0 #ff2bc6,
             2px -2px 0 #7ae6fe,
@@ -141,5 +237,16 @@ body {
             2px 2px 0 #7ae6fe,
             0 0 20px rgba(255, 107, 157, 0.5),
             0 0 40px rgba(255, 107, 157, 0.2);
+    }
+}
+
+/* Mobile touch interaction */
+@media screen and (max-width: 767px) {
+    .business-card {
+        transition: transform 0.6s ease;
+    }
+    
+    .card-container {
+        -webkit-tap-highlight-color: transparent;
     }
 }
